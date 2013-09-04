@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,30 +22,35 @@ namespace FiboneedNet
 
         private void bntCalcular_Click(object sender, EventArgs e)
         {
-            long n = long.Parse(this.tbNumber.Text);//Se lee el numero a calcular 
-            StringBuilder sresultado = new StringBuilder();
-            //Nota: Para calcular un espacio de tiempo, mejor que TimeSpan es Stopwatch
-            Stopwatch timer = new Stopwatch();
-            //Nota: Las cadenas de texto se inician con string.empty y no con comillas. 
-            lblResultado.Text = string.Empty;
-            
+            int number = 0;
+            if (int.TryParse(this.tbNumber.Text, out number))
+            {
+                StringBuilder sresultado = new StringBuilder();
+                //Nota: Para calcular un espacio de tiempo, mejor que TimeSpan es Stopwatch
+                Stopwatch timer = new Stopwatch();
+                //Nota: Las cadenas de texto se inician con string.empty y no con comillas. 
+                lblResultado.Text = string.Empty;
+                DateTime tiempo1 = DateTime.Now;//Inicio medida tiempo
+                //Nota: Los string en Net son inmutables, por lo que cada vez que se usa uno métodos de System.String
+                //se genera un nuevo objeto en memoria -> para generar cadenas usar StringBuilder. 
+                timer.Start();
+                sresultado.AppendFormat("Fibonacci Iterativo para n = {0}: {1}", number, Fibonacci(number));
+                timer.Stop();
+                //Nota: Para los saltos de línea usar Environment.NewLine porque sirve para todos los sistemas
+                sresultado.AppendFormat("{0}Tiempo del Fibonacci iterativo: {1}", Environment.NewLine, timer.Elapsed.ToString());
 
-            DateTime tiempo1 = DateTime.Now;//Inicio medida tiempo
-            //Nota: Los string en Net son inmutables, por lo que cada vez que se usa uno métodos de System.String
-            //se genera un nuevo objeto en memoria -> para generar cadenas usar StringBuilder. 
-            timer.Start();
-            sresultado.AppendFormat("Fibonacci Iterativo para n = {0}: {1}", n, Fibonacci(n));
-            timer.Stop();
-            //Nota: Para los saltos de línea usar Environment.NewLine porque sirve para todos los sistemas
-            sresultado.AppendFormat("{0}Tiempo del Fibonacci iterativo: {1}", Environment.NewLine, timer.Elapsed.ToString());
-            
-            timer.Start();
-            sresultado.AppendFormat("{0}Fibonacci Recursivo para n = {1}: {2}", Environment.NewLine, n, FiboRecur(n));
-            timer.Stop();
-            sresultado.AppendFormat("{0}Tiempo del Fibonacci recursivo: {1}", Environment.NewLine, timer.Elapsed.ToString());
-            
-            lblResultado.Text = sresultado.ToString();
-            lblResultado.Refresh();
+                timer.Start();
+                sresultado.AppendFormat("{0}Fibonacci Recursivo para n = {1}: {2}", Environment.NewLine, number, FiboRecur(number));
+                timer.Stop();
+                sresultado.AppendFormat("{0}Tiempo del Fibonacci recursivo: {1}", Environment.NewLine, timer.Elapsed.ToString());
+
+                lblResultado.Text = sresultado.ToString();
+                lblResultado.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("No ha sido introducido un número válido.");
+            }
         }
 
         public long Fibonacci(long n)
@@ -71,6 +77,12 @@ namespace FiboneedNet
             {
                 return FiboRecur(n - 1) + FiboRecur(n - 2);
             }
+        }
+
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //Recuperamos el worker que lanza el evento:
+            BackgroundWorker worker = sender as BackgroundWorker;
         }
     }
 }

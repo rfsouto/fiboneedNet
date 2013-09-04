@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.lblNumber = new System.Windows.Forms.Label();
-            this.tbNumber = new System.Windows.Forms.MaskedTextBox();
             this.bntCalcular = new System.Windows.Forms.Button();
             this.lblResultado = new System.Windows.Forms.Label();
+            this.tbNumber = new System.Windows.Forms.TextBox();
+            this.bw = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // lblNumber
@@ -44,17 +45,9 @@
             this.lblNumber.TabIndex = 0;
             this.lblNumber.Text = "Número base para calcular";
             // 
-            // tbNumber
-            // 
-            this.tbNumber.Location = new System.Drawing.Point(229, 19);
-            this.tbNumber.Mask = "9999999999";
-            this.tbNumber.Name = "tbNumber";
-            this.tbNumber.Size = new System.Drawing.Size(186, 20);
-            this.tbNumber.TabIndex = 1;
-            // 
             // bntCalcular
             // 
-            this.bntCalcular.Location = new System.Drawing.Point(314, 45);
+            this.bntCalcular.Location = new System.Drawing.Point(314, 41);
             this.bntCalcular.Name = "bntCalcular";
             this.bntCalcular.Size = new System.Drawing.Size(101, 22);
             this.bntCalcular.TabIndex = 2;
@@ -70,14 +63,26 @@
             this.lblResultado.Size = new System.Drawing.Size(403, 117);
             this.lblResultado.TabIndex = 0;
             // 
+            // tbNumber
+            // 
+            this.tbNumber.Location = new System.Drawing.Point(230, 15);
+            this.tbNumber.Name = "tbNumber";
+            this.tbNumber.Size = new System.Drawing.Size(185, 20);
+            this.tbNumber.TabIndex = 3;
+            // 
+            // bw
+            // 
+            this.bw.WorkerReportsProgress = true;
+            this.bw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bw_DoWork);
+            // 
             // frmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(421, 197);
+            this.Controls.Add(this.tbNumber);
             this.Controls.Add(this.lblResultado);
             this.Controls.Add(this.bntCalcular);
-            this.Controls.Add(this.tbNumber);
             this.Controls.Add(this.lblNumber);
             this.Name = "frmMenu";
             this.Text = "FiboneedNet";
@@ -89,9 +94,10 @@
         #endregion
 
         private System.Windows.Forms.Label lblNumber;
-        private System.Windows.Forms.MaskedTextBox tbNumber;
         private System.Windows.Forms.Button bntCalcular;
         private System.Windows.Forms.Label lblResultado;
+        private System.Windows.Forms.TextBox tbNumber;
+        private System.ComponentModel.BackgroundWorker bw;
     }
 }
 
