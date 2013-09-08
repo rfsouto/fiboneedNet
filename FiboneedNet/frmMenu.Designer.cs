@@ -33,6 +33,7 @@
             this.lblResultado = new System.Windows.Forms.Label();
             this.tbNumber = new System.Windows.Forms.TextBox();
             this.bw = new System.ComponentModel.BackgroundWorker();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // lblNumber
@@ -74,12 +75,22 @@
             // 
             this.bw.WorkerReportsProgress = true;
             this.bw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bw_DoWork);
+            this.bw.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bw_ProgressChanged);
+            this.bw.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bw_RunWorkerCompleted);
+            // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(12, 39);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(211, 23);
+            this.progressBar.TabIndex = 4;
             // 
             // frmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(421, 197);
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.tbNumber);
             this.Controls.Add(this.lblResultado);
             this.Controls.Add(this.bntCalcular);
@@ -98,6 +109,7 @@
         private System.Windows.Forms.Label lblResultado;
         private System.Windows.Forms.TextBox tbNumber;
         private System.ComponentModel.BackgroundWorker bw;
+        private System.Windows.Forms.ProgressBar progressBar;
     }
 }
 
